@@ -96,7 +96,6 @@ export class ServiceBase<
   }
 
   async create(dto: TCreateDto) {
-    console.log(dto);
     if (this._requiresValidationInCreation) {
       const filterToKnowIfAlreadyExists =
         this._functionToCreateObjectToFindIfTheEntityAlreadyExists({
@@ -117,7 +116,6 @@ export class ServiceBase<
   }
 
   async update(id: number, dto: TUpdateDto) {
-    console.log('dto', dto);
     if (Object.keys(dto).length == 0)
       throw new HttpException(
         `No se estan registrando cambios en ${this._article} ${this._resourceName}`,
