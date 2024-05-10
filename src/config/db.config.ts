@@ -3,7 +3,6 @@ import { env } from 'process';
 
 export const dbConfig: TypeOrmModuleAsyncOptions = {
   useFactory: () => {
-    console.log(env.DATABASE_HOST);
     return {
       type: 'mysql',
       host: env.DATABASE_HOST,

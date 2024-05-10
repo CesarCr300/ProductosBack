@@ -31,6 +31,7 @@ export class UserService extends ServiceBase<
       adapterFindOne: (e: User) => e,
       functionToCreateObjectToFindIfTheEntityAlreadyExists: (dto: any) => ({
         email: dto.email,
+        username: dto.username,
       }),
     });
   }
@@ -40,5 +41,10 @@ export class UserService extends ServiceBase<
     }
 
     return await super.update(id, dto);
+  }
+
+  async create(dto: CreateUserDto): Promise<User> {
+    dto.password = await HashingUtil.hash(dto.password);
+    return await super.create(dto);
   }
 }
