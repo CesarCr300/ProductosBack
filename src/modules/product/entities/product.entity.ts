@@ -4,9 +4,10 @@ import {
   Column,
   DeleteDateColumn,
 } from 'typeorm';
+import { AuditoryEntity } from '../../auditory/entities/auditory.entity';
 
 @Entity({ name: 'tbl_product' })
-export class Product {
+export class Product extends AuditoryEntity {
   @PrimaryGeneratedColumn({ name: 'int_id' })
   id: number;
 
@@ -49,10 +50,4 @@ export class Product {
 
   @DeleteDateColumn({ name: 'dat_deleted_at', nullable: true })
   deletedAt: Date | null;
-
-  @Column({ name: 'int_created_by' })
-  createdBy: number;
-
-  @Column({ name: 'int_updated_by', nullable: true })
-  updatedBy: number | null;
 }
