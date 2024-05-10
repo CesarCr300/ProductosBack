@@ -1,4 +1,4 @@
-export class ResponseProductDto {
+export class ResponseManyProductDto {
   id: number;
   title: string;
   stock: number;

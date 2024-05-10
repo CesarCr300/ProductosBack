@@ -13,6 +13,7 @@ import { AuthModule } from '../auth/auth.module';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ProductModule } from '../product/product.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AppService } from './app.service';
     TypeOrmModule.forRootAsync(dbConfig),
     UserModule,
     AuthModule,
+    ProductModule,
     ClsModule.forRoot({
       global: true,
       middleware: { mount: true },
