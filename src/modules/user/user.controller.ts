@@ -19,6 +19,7 @@ import {
   GetLinkToResetPasswordUserDto,
   CreateUserDto,
   UpdatePasswordUserDto,
+  RecoverPasswordUserDto,
 } from './dto';
 
 @ApiTags('users')
@@ -47,7 +48,7 @@ export class UserController {
   @Post('recover-password')
   @Public()
   @UseGuards(JwtRecoverPasswordAuthGuard)
-  recoverPassword() {
-    return this.userService.recoverPassword();
+  recoverPassword(@Body() dto: RecoverPasswordUserDto) {
+    return this.userService.recoverPassword(dto);
   }
 }
