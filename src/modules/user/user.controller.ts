@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Patch, UseGuards, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  UseGuards,
+  Get,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { RolesGuard } from '../auth/guards/roles-auth.guard';
@@ -9,6 +17,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
 import { Public } from '../auth/utils/isPublic';
 import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
+import { JwtRecoverPasswordAuthGuard } from '../auth/guards/jwt-recover-password.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -31,5 +40,12 @@ export class UserController {
   @Public()
   sendLinkToResetPassword(@Query() dto: ResetPasswordUserDto) {
     return this.userService.sendLinkToResetPassword(dto);
+  }
+
+  @Post('recover-password')
+  @Public()
+  @UseGuards(JwtRecoverPasswordAuthGuard)
+  recoverPassword() {
+    return this.userService.recoverPassword();
   }
 }
