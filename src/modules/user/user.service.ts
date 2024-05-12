@@ -91,6 +91,9 @@ export class UserService extends ServiceBase<
         ],
       },
     );
+    //If the user does not exist, we do not send the email
+    //and we have the same API response as if the user existed
+    //because we do not want to give information about the existence of the user
     if (!user) {
       return;
     }
