@@ -15,7 +15,7 @@ import {
   UpdatePasswordUserDto,
   UpdateUserDto,
   FilterUserDto,
-  ResetPasswordUserDto,
+  GetLinkToResetPasswordUserDto,
 } from './dto';
 
 @Injectable()
@@ -88,7 +88,7 @@ export class UserService extends ServiceBase<
     return null;
   }
 
-  async sendLinkToResetPassword(dto: ResetPasswordUserDto): Promise<any> {
+  async sendLinkToResetPassword(dto: GetLinkToResetPasswordUserDto): Promise<any> {
     const user = await this._repository.findOne(
       {},
       {

@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class ResetPasswordUserDto {
+export class GetLinkToResetPasswordUserDto {
   @IsNotEmpty()
   emailOrUsername: string;
 }
