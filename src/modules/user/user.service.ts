@@ -1,4 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { ClsService } from 'nestjs-cls';
+import { env } from 'process';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,9 +11,10 @@ import { User } from './entities/user.entity';
 import { FilterUserDto } from './dto/filter-user.dto';
 import { HashingUtil } from '../../utils/hashing';
 import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
-import { ClsService } from 'nestjs-cls';
 import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
 import { EmailService } from '../../services/email.service';
+import { getRecoverPasswordUserEmail } from './emails/recover-password-user-email';
+import { RecoveredPasswordPayload } from '../../entities/payload-recover-password.entity';
 
 @Injectable()
 export class UserService extends ServiceBase<
@@ -29,6 +33,7 @@ export class UserService extends ServiceBase<
     _usersRepository: UserRepository,
     private readonly cls: ClsService,
     private readonly emailService: EmailService,
+    private readonly jwtService: JwtService,
   ) {
     super(_usersRepository, {
       article: 'el',
@@ -97,11 +102,17 @@ export class UserService extends ServiceBase<
     if (!user) {
       return;
     }
-    this.emailService.sendEmail(
-      user.email,
-      'Recuperación de contraseña',
-      '<p>hola <b>Esta es una prueba</b></p>',
+    const recoverPasswordPayload: RecoveredPasswordPayload = {
+      sub: user.id,
+      recoveringPassword: true,
+    };
+    const token = this.jwtService.sign(recoverPasswordPayload);
+    const { content, subject } = getRecoverPasswordUserEmail(
+      env.FRONTEND_URL,
+      token,
     );
+
+    this.emailService.sendEmail(user.email, subject, content);
     return;
   }
 
