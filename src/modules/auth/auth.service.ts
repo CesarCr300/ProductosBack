@@ -4,6 +4,7 @@ import { UserRepository } from '../user/repository/user.repository';
 import { HashingUtil } from '../../utils/hashing';
 import { User } from '../user/entities/user.entity';
 import { UserPayload } from '../user/entities/payload-user.entity';
+import { LoginSuccessDto } from './dto/login-success.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
+  async login(user: User): Promise<LoginSuccessDto> {
     const payload: UserPayload = {
       email: user.email,
       sub: user.id,
@@ -31,6 +32,10 @@ export class AuthService {
     };
     return {
       access_token: this._jwt.sign(payload),
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
     };
   }
 }
