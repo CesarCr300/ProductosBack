@@ -10,6 +10,7 @@ import { HashingUtil } from '../../utils/hashing';
 import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
 import { ClsService } from 'nestjs-cls';
 import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
+import { EmailService } from '../../services/email.service';
 
 @Injectable()
 export class UserService extends ServiceBase<
@@ -27,6 +28,7 @@ export class UserService extends ServiceBase<
   constructor(
     _usersRepository: UserRepository,
     private readonly cls: ClsService,
+    private readonly emailService: EmailService,
   ) {
     super(_usersRepository, {
       article: 'el',
@@ -92,7 +94,11 @@ export class UserService extends ServiceBase<
     if (!user) {
       return;
     }
-
-    return null;
+    this.emailService.sendEmail(
+      user.email,
+      'Recuperación de contraseña',
+      '<p>hola <b>Esta es una prueba</b></p>',
+    );
+    return;
   }
 }
