@@ -9,6 +9,7 @@ import { FilterUserDto } from './dto/filter-user.dto';
 import { HashingUtil } from '../../utils/hashing';
 import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
 import { ClsService } from 'nestjs-cls';
+import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
 
 @Injectable()
 export class UserService extends ServiceBase<
@@ -75,6 +76,23 @@ export class UserService extends ServiceBase<
     await this._repository.update(userFounded.id, {
       password: newPassword,
     });
+    return null;
+  }
+
+  async sendLinkToResetPassword(dto: ResetPasswordUserDto): Promise<any> {
+    const user = await this._repository.findOne(
+      {},
+      {
+        where: [
+          { email: dto.emailOrUsername },
+          { username: dto.emailOrUsername },
+        ],
+      },
+    );
+    if (!user) {
+      return;
+    }
+
     return null;
   }
 }
