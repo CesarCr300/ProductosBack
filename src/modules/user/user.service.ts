@@ -3,18 +3,20 @@ import { JwtService } from '@nestjs/jwt';
 import { ClsService } from 'nestjs-cls';
 import { env } from 'process';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserRepository } from './repository/user.repository';
 import { ServiceBase } from '../../base/service.base';
-import { User } from './entities/user.entity';
-import { FilterUserDto } from './dto/filter-user.dto';
 import { HashingUtil } from '../../utils/hashing';
-import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
-import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
 import { EmailService } from '../../services/email.service';
-import { getRecoverPasswordUserEmail } from './emails/recover-password-user-email';
 import { RecoveredPasswordPayload } from '../../entities/payload-recover-password.entity';
+import { UserRepository } from './repository/user.repository';
+import { User } from './entities/user.entity';
+import { getRecoverPasswordUserEmail } from './emails/recover-password-user-email';
+import {
+  CreateUserDto,
+  UpdatePasswordUserDto,
+  UpdateUserDto,
+  FilterUserDto,
+  ResetPasswordUserDto,
+} from './dto';
 
 @Injectable()
 export class UserService extends ServiceBase<
