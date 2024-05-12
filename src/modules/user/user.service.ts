@@ -104,4 +104,8 @@ export class UserService extends ServiceBase<
     );
     return;
   }
+
+  async recoverPassword() {
+    return 'accedio';
+  }
 }

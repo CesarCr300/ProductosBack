@@ -14,6 +14,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from '../product/product.module';
+import { JwtRecoverPasswordStrategy } from '../auth/strategies/jwt-recover-password.strategy';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ProductModule } from '../product/product.module';
       useClass: UserInterceptor,
     },
     AuditorySuscriber,
+    JwtRecoverPasswordStrategy,
   ],
 })
 export class AppModule {
