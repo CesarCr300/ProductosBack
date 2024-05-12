@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Patch, UseGuards, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { RolesGuard } from '../auth/guards/roles-auth.guard';
@@ -7,6 +7,8 @@ import { Role } from '../auth/enums/roles.enum';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
+import { Public } from '../auth/utils/isPublic';
+import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -23,5 +25,11 @@ export class UserController {
   @Patch('update-password')
   updatePassword(@Body() update: UpdatePasswordUserDto) {
     return this.userService.updatePassword(update);
+  }
+
+  @Get('link-to-reset-password')
+  @Public()
+  sendLinkToResetPassword(@Query() dto: ResetPasswordUserDto) {
+    return this.userService.sendLinkToResetPassword(dto);
   }
 }
