@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClsService } from 'nestjs-cls';
 import { env } from 'process';
@@ -33,7 +33,7 @@ export class UserService extends ServiceBase<
   UpdateUserDto
 > {
   constructor(
-    _usersRepository: UserRepository,
+    private _usersRepository: UserRepository,
     private readonly cls: ClsService,
     private readonly emailService: EmailService,
     private readonly jwtService: JwtService,
@@ -60,8 +60,17 @@ export class UserService extends ServiceBase<
   }
 
   async create(dto: CreateUserDto): Promise<User> {
+    const userFounded = await this._usersRepository.findOne(
+      {},
+      { where: [{ email: dto.email }, { username: dto.email }] },
+    );
+    if (userFounded) {
+      throw new HttpException('El usuario ya existe', HttpStatus.CONFLICT);
+    }
+
     dto.password = await HashingUtil.hash(dto.password);
-    return await super.create(dto);
+    await this._usersRepository.create(dto);
+    return;
   }
 
   async updatePassword(dto: UpdatePasswordUserDto): Promise<any> {
