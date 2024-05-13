@@ -22,11 +22,14 @@ export class AuditorySuscriber
   //   listenTo() {
   //     return AuditoryEntity;
   //   }
+  //this.cls.get('user') can be null because i'm putting public the create user ep to facilitate the creation of the user to the interviewers
   beforeInsert(event: InsertEvent<AuditoryEntity>) {
+    if (!this.cls.get('user')) return;
     event.entity.createdBy = this.cls.get('user').sub;
   }
 
   beforeUpdate(event: UpdateEvent<AuditoryEntity>) {
+    if (!this.cls.get('user')) return;
     event.entity.updatedBy = this.cls.get('user').sub;
   }
 }
