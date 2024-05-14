@@ -1,7 +1,6 @@
-# Dockerfile
-
-# Base image
 FROM node:21.6.1
+
+ARG PORT=3000
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -15,7 +14,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Expose the app's port
-EXPOSE 3000
+EXPOSE $PORT
 
 # Start the app
 CMD [ "yarn", "start:dev" ]
