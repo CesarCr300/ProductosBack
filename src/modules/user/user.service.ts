@@ -62,7 +62,7 @@ export class UserService extends ServiceBase<
   async create(dto: CreateUserDto): Promise<User> {
     const userFounded = await this._usersRepository.findOne(
       {},
-      { where: [{ email: dto.email }, { username: dto.email }] },
+      { where: [{ email: dto.email }, { username: dto.username }] },
     );
     if (userFounded) {
       throw new HttpException('El usuario ya existe', HttpStatus.CONFLICT);
